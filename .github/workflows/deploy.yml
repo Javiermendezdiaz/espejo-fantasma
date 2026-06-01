@@ -19,4 +19,4 @@ jobs:
       - name: Health check
         run: |
           sleep 10
-          curl -f https://espejo-fantasma.onrender.com/ping || exit 1
+          curl -f https://espejo-fantasma-api.onrender.com/ping || exit 1
