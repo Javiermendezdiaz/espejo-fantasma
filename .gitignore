@@ -1,66 +1,33 @@
-# Environment
-.env
-.env.local
-.env.*.local
+﻿# Notas y auditorías (eliminar)
+*.txt
+MEMORIA_*.txt
+AUDIT_*.txt
+ACCION_*.txt
+CHECKLIST_*.txt
+MASTER_*.txt
+ESTADO_*.txt
+SPRINT*_*.txt
 
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
-.installed.cfg
-*.egg
+.pytest_cache/
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
-.DS_Store
+
+# Environment
+.env
+.env.local
 
 # Database
-*.db
-*.sqlite
-*.sqlite3
 postgres_data/
 
-# Node
-node_modules/
-npm-debug.log
-yarn-error.log
-
-# Build
-/dist/
-/build/
-.parcel-cache/
+# Logs
+*.log
 
 # OS
-Thumbs.db
 .DS_Store
-
-# Stripe
-stripe_*.json
-
-# PDF/Temp
-/tmp/
-/temp/
-*.pdf
-*.bak
+Thumbs.db
