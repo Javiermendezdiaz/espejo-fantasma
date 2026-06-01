@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: gdpr-diagnostic-api
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app_standalone_FINAL:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: DATABASE_URL
+        value: sqlite:///./diagnoses.db

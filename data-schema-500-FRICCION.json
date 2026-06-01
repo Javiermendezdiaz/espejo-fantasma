@@ -1,0 +1,712 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "total_preguntas": 500,
+    "capas": 10,
+    "preguntas_por_capa": 50,
+    "descripcion": "500 preguntas FRICCIÓN TOP 1% — números, confrontación, realidad desnuda. SIN SOFT SKILLS.",
+    "cambios_principales": [
+      "q1: Detección HIJOS (activador Family Central Bank)",
+      "q2-q10: Números desnudos — no escalas",
+      "q51-q100: Fricción relacional medible",
+      "q101-q150: Comportamiento dinero objetivo",
+      "q500: Trigger high-ticket €500+ sesión 1-1 Javier"
+    ]
+  },
+  "capas": {
+    "realidad_financiera_nuda": {
+      "nombre": "Realidad Financiera Desnuda",
+      "descripcion": "Números exactos: activos, pasivos, ingresos, runway, dependientes. CERO emociones.",
+      "preguntas": [
+        {
+          "id": "q001",
+          "pregunta": "¿Tenéis menores de 18 años o personas adultas dependientes a cargo?",
+          "tipo": "hijo_detector",
+          "respuestas": [
+            {
+              "texto": "No hay dependientes",
+              "score": 0,
+              "valor_estructura": "sin_hijos"
+            },
+            {
+              "texto": "Sí, indicar cuántos y edades",
+              "score": 25,
+              "valor_estructura": "con_hijos",
+              "requiere_campo_texto": "Edades (ej: 7,12,15)"
+            }
+          ],
+          "pesos": {
+            "estructura_familia": 100,
+            "family_central_bank_trigger": 100
+          },
+          "notas": "CRÍTICA: si score >0, ACTIVA módulo Family Central Bank en couple_report_generator.py"
+        },
+        {
+          "id": "q002",
+          "pregunta": "¿Cuánto dinero DISPONIBLE tenéis AHORA mismo (sin tocar jubilación, sin vender nada)? Escribid cifra exacta en €",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "Respuesta numérica libre",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [0, 1000000],
+              "unidad": "EUR"
+            }
+          ],
+          "pesos": {
+            "activos_liquidos": 100,
+            "runway": 95
+          }
+        },
+        {
+          "id": "q003",
+          "pregunta": "Gastos MENSUALES FIJOS obligatorios (hipoteca/alquiler + servicios + comida + transporte). Número exacto en €:",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "Número en €",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [300, 5000],
+              "unidad": "EUR/mes"
+            }
+          ],
+          "pesos": {
+            "gastos_base": 100,
+            "runway": 95
+          }
+        },
+        {
+          "id": "q004",
+          "pregunta": "Si mañana vuestros INGRESOS caen a CERO, ¿cuántos DÍAS EXACTOS podéis vivir sin tocar fondos de jubilación ni pedir prestado?",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "Número de días",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [0, 365],
+              "unidad": "días",
+              "formula_interna": "q002 / (q003 / 30)"
+            }
+          ],
+          "pesos": {
+            "runway": 100,
+            "resiliencia": 100
+          },
+          "notas": "CONFRONTACIÓN CRUDA: fuerza al usuario a enfrentar realidad desnuda. FinancialRunwayCalculator usa este dato."
+        },
+        {
+          "id": "q005",
+          "pregunta": "Ingresos MENSUALES NETOS (lo que entra en la cuenta después de impuestos). Número exacto en €:",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "Número en €",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [500, 20000],
+              "unidad": "EUR/mes"
+            }
+          ],
+          "pesos": {
+            "ingresos": 100,
+            "efecto_tijera": 90
+          }
+        },
+        {
+          "id": "q006",
+          "pregunta": "¿Cuánto dinero DESAPARECE cada mes sin saber dónde (gastos hormiguero, café, suscripciones, pequeñas compras)? €:",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "Número en €",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [0, 1000],
+              "unidad": "EUR/mes"
+            }
+          ],
+          "pesos": {
+            "gastos_invisibles": 100,
+            "impuesto_invisible": 80
+          }
+        },
+        {
+          "id": "q007",
+          "pregunta": "Deuda TOTAL que arrastraís (hipoteca + créditos + tarjetas + préstamos personales). Número exacto en €:",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "Número en €",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [0, 500000],
+              "unidad": "EUR"
+            }
+          ],
+          "pesos": {
+            "deuda": 100,
+            "tasa_asfixia": 95
+          }
+        },
+        {
+          "id": "q008",
+          "pregunta": "De esa deuda, ¿cuánto es HIPOTECARIA (inmueble) y cuánto es CONSUMO (tarjetas, préstamos)? Desglose: Hipoteca €___ / Consumo €___",
+          "tipo": "numero_doble",
+          "respuestas": [
+            {
+              "texto": "Hipoteca y consumo",
+              "score": 0,
+              "requiere_numeros": [true, true],
+              "unidad": "EUR"
+            }
+          ],
+          "pesos": {
+            "deuda_destructiva": 100,
+            "leverage": 90
+          }
+        },
+        {
+          "id": "q009",
+          "pregunta": "¿Cuál es tu RENTA NETA MENSUAL dividida entre pagos obligatorios (hipoteca/alquiler + deudas)? % = (deudas mensual / renta neta) × 100. Número:",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "Porcentaje %",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [0, 100],
+              "unidad": "%",
+              "interpretacion": "Si >80% = esclavo. 50-80% = asfixiado. <30% = libertad"
+            }
+          ],
+          "pesos": {
+            "tasa_asfixia": 100,
+            "libertad": 95
+          }
+        },
+        {
+          "id": "q010",
+          "pregunta": "¿Cuántos MESES de gastos tenéis guardados en ahorros (efecto colchón)? Fórmula: ahorros líquidos / gastos mensuales = ___ meses",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "Número de meses",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [0, 60],
+              "unidad": "meses",
+              "interpretacion": "Ideal >6. Seguro >3. Riesgo <1."
+            }
+          ],
+          "pesos": {
+            "resiliencia": 100,
+            "shield_score": 90
+          }
+        }
+      ]
+    },
+    "friccion_relacional": {
+      "nombre": "Fricción Relacional — Lo que No Se Dice",
+      "descripcion": "Preguntas de COMPORTAMIENTO pareja, no sentimientos. Qué pasa REALMENTE.",
+      "preguntas": [
+        {
+          "id": "q051",
+          "pregunta": "En el ÚLTIMO MES, ¿cuántas veces iniciaste una conversación sobre dinero que terminó en SILENCIO INCÓMODO o uno se fue?",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "Número exacto de veces",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [0, 30],
+              "unidad": "veces/mes"
+            }
+          ],
+          "pesos": {
+            "friccion_relacional": 100,
+            "alignment": 95
+          }
+        },
+        {
+          "id": "q052",
+          "pregunta": "¿UNO DE VOSOTROS oculta compras, gasto, o movimientos financieros al otro?",
+          "tipo": "escala_comportamiento",
+          "respuestas": [
+            {
+              "texto": "No, total transparencia",
+              "score": 0
+            },
+            {
+              "texto": "A veces oculta una pequeña compra",
+              "score": 30
+            },
+            {
+              "texto": "Regularmente hay gastos secretos",
+              "score": 70
+            },
+            {
+              "texto": "Hay cosas significativas que se ocultan",
+              "score": 100
+            }
+          ],
+          "pesos": {
+            "honestidad": 100,
+            "archetipo_conflict": 90
+          }
+        },
+        {
+          "id": "q053",
+          "pregunta": "Si pido ver TODAS vuestras transacciones bancarias, suscripciones, y movimientos, ¿se resiste ALGUNO de vosotros?",
+          "tipo": "si_no",
+          "respuestas": [
+            {
+              "texto": "No, mostrándonos todo sin problema",
+              "score": 0
+            },
+            {
+              "texto": "Sí, se resiste uno",
+              "score": 80
+            }
+          ],
+          "pesos": {
+            "transparencia": 100,
+            "control": 90
+          },
+          "notas": "INDICADOR DE ARQUETIPO: si hay resistencia, hay secreto. Arquetipos Evasor/Adorador tienden a ocultar."
+        },
+        {
+          "id": "q054",
+          "pregunta": "¿QUIÉN decide cómo se gasta el dinero de la familia? Elegir UNA opción:",
+          "tipo": "poder",
+          "respuestas": [
+            {
+              "texto": "Decisiones conjuntas, ambos con veto",
+              "score": 0
+            },
+            {
+              "texto": "Uno domina sin consultar",
+              "score": 70
+            },
+            {
+              "texto": "Se negocia pero hay resentimiento",
+              "score": 50
+            }
+          ],
+          "pesos": {
+            "poder": 100,
+            "alineacion": 90
+          }
+        },
+        {
+          "id": "q055",
+          "pregunta": "¿Cuántas HORAS REALES dedica cada uno de vosotros SEMANA a gestión financiera (revisar cuentas, pagar facturas, planificar)?",
+          "tipo": "numero_doble",
+          "respuestas": [
+            {
+              "texto": "Tú: ___ horas/semana | Pareja: ___ horas/semana",
+              "score": 0,
+              "requiere_numeros": [true, true],
+              "unidad": "horas"
+            }
+          ],
+          "pesos": {
+            "carga_trabajo": 100,
+            "desigualdad": 95
+          },
+          "notas": "Detecta si uno carga con TODO y el otro es ignorante. Fuente de fricción."
+        }
+      ]
+    },
+    "comportamiento_dinero": {
+      "nombre": "Arqueología Psico-Financiera — Comportamiento Dinero",
+      "descripcion": "Cómo usa REALMENTE cada uno el dinero. Arquetipos y patrones.",
+      "preguntas": [
+        {
+          "id": "q101",
+          "pregunta": "Si tenéis €1000 inesperados, ¿qué hace cada uno? Elige la opción que REALMENTE haría, no la ideal:",
+          "tipo": "archetype_question",
+          "respuestas": [
+            {
+              "texto": "A — Espera a tener SEGURIDAD (tipo Guardián): guarda el dinero sin tocar",
+              "score": 0,
+              "archetype": "guardian"
+            },
+            {
+              "texto": "B — Invierte/BUSCA OPORTUNIDAD (tipo Buscador): invierte o monta proyecto",
+              "score": 25,
+              "archetype": "buscador"
+            },
+            {
+              "texto": "C — GASTA en algo que ama (tipo Adorador): lujo, experiencia, lo que desea",
+              "score": 50,
+              "archetype": "adorador"
+            },
+            {
+              "texto": "D — LO OCULTA (tipo Evasor): lo guarda sin decirle a pareja",
+              "score": 100,
+              "archetype": "evasor"
+            }
+          ],
+          "pesos": {
+            "archetype": 100,
+            "conflict": 95
+          }
+        },
+        {
+          "id": "q102",
+          "pregunta": "¿VERDAD O MENTIRA? 'Si tengo más dinero, me sentiré feliz/seguro/completo':",
+          "tipo": "creencia",
+          "respuestas": [
+            {
+              "texto": "Falso, sé que no es verdad",
+              "score": 0
+            },
+            {
+              "texto": "Parcialmente verdad",
+              "score": 50
+            },
+            {
+              "texto": "Verdad, lo creo completamente",
+              "score": 100
+            }
+          ],
+          "pesos": {
+            "identidad_dinero": 100,
+            "hedonic_treadmill": 90
+          }
+        },
+        {
+          "id": "q103",
+          "pregunta": "¿Cuánto dinero 'NECESITA' tu pareja para 'ser feliz'? (Si contesta 'dinero no importa', pregunta: ¿cuánto gastos en lujos/viajes/moda?):",
+          "tipo": "archetype_status",
+          "respuestas": [
+            {
+              "texto": "No es sobre dinero, importa libertad/tiempo",
+              "score": 0
+            },
+            {
+              "texto": "€___/mes es el 'mínimo para respirar'",
+              "score": 50,
+              "requiere_numero": true
+            }
+          ],
+          "pesos": {
+            "status_dependency": 95,
+            "archetype": 90
+          }
+        }
+      ]
+    },
+    "deuda_destruccion": {
+      "nombre": "Termómetro Deuda Destructiva",
+      "descripcion": "¿Es deuda BUENA (hipoteca) o VENENO (tarjeta de crédito)?",
+      "preguntas": [
+        {
+          "id": "q151",
+          "pregunta": "¿Tenéis TARJETA DE CRÉDITO con saldo pendiente (no pagado al 100% cada mes)?",
+          "tipo": "deuda_destructiva",
+          "respuestas": [
+            {
+              "texto": "No, pagamos 100% cada mes",
+              "score": 0
+            },
+            {
+              "texto": "Sí, saldo: €___",
+              "score": 80,
+              "requiere_numero": true
+            }
+          ],
+          "pesos": {
+            "deuda_destructiva": 100,
+            "burnout": 95
+          }
+        },
+        {
+          "id": "q152",
+          "pregunta": "¿Cuál es el TIPO DE INTERÉS que pagáis en esa tarjeta? % anual:",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "% anual",
+              "score": 0,
+              "requiere_numero": true,
+              "rango_esperado": [0, 30]
+            }
+          ],
+          "pesos": {
+            "costo_deuda": 100,
+            "impuesto_invisible": 90
+          }
+        }
+      ]
+    },
+    "inversion_capital_inerte": {
+      "nombre": "Dinero Dormido — El Impuesto Invisible",
+      "descripcion": "¿Cuánto dinero PIERDES anualmente a inflación por estar en banco?",
+      "preguntas": [
+        {
+          "id": "q201",
+          "pregunta": "¿Dónde está la MAYORÍA del dinero ahorrado? (Elige dónde está >50%)",
+          "tipo": "inversion_type",
+          "respuestas": [
+            {
+              "texto": "A — En banco 0% interés (dinero muerto)",
+              "score": 100,
+              "tipo_inversion": "banco_cero"
+            },
+            {
+              "texto": "B — En depósito 1-2% (seguro pero inflación lo come)",
+              "score": 70,
+              "tipo_inversion": "deposito_bajo"
+            },
+            {
+              "texto": "C — En ETFs/fondos/bolsa (~5-7% largo plazo)",
+              "score": 30,
+              "tipo_inversion": "indexado"
+            },
+            {
+              "texto": "D — Diversificado (inmuebles + inversiones + banco)",
+              "score": 0,
+              "tipo_inversion": "diversificado"
+            }
+          ],
+          "pesos": {
+            "inversion": 100,
+            "impuesto_invisible": 100
+          }
+        }
+      ]
+    },
+    "lifestyle_hedonic_treadmill": {
+      "nombre": "Riqueza Temporal — La Cinta Rodante de Hedonic",
+      "descripcion": "¿Habéis subido gastos cuando subió el sueldo? ¿Se quedó el dinero igual?",
+      "preguntas": [
+        {
+          "id": "q251",
+          "pregunta": "Hace 3 años, ¿cuál era vuestro SUELDO MENSUAL NETO (pareja A + pareja B)?",
+          "tipo": "numero_exacto",
+          "respuestas": [
+            {
+              "texto": "€ neto/mes",
+              "score": 0,
+              "requiere_numero": true
+            }
+          ],
+          "pesos": {
+            "inflation_lifestyle": 90
+          },
+          "notas": "Usar para comparar con q005: ¿subió sueldo pero no ahorros?"
+        },
+        {
+          "id": "q252",
+          "pregunta": "¿Habéis AHORRADO más dinero en esos 3 años, O se fue todo en gastos?"",
+          "tipo": "si_no",
+          "respuestas": [
+            {
+              "texto": "Sí, ahorro más",
+              "score": 0
+            },
+            {
+              "texto": "No, gastos suben con sueldo",
+              "score": 100
+            }
+          ],
+          "pesos": {
+            "hedonic_treadmill": 100
+          },
+          "notas": "Detección de Treadmill: ingresos +20%, ahorros +0%"
+        }
+      ]
+    },
+    "eventos_vitales_inevitables": {
+      "nombre": "Eventos Vitales Inevitables — Costo de La Vida",
+      "descripcion": "¿Habéis calculado el COSTE REAL de educación, cuidado abuelos, sandwich syndrome?",
+      "preguntas": [
+        {
+          "id": "q301",
+          "pregunta": "¿Tenéis hijos? ¿A qué edad entran en primaria (educación privada) o universidad?",
+          "tipo": "evento_vital",
+          "respuestas": [
+            {
+              "texto": "No hay hijos",
+              "score": 0
+            },
+            {
+              "texto": "Sí, primaria a edad ___, universidad a edad ___",
+              "score": 50,
+              "requiere_numeros": [true, true]
+            }
+          ],
+          "pesos": {
+            "life_events": 100
+          }
+        },
+        {
+          "id": "q302",
+          "pregunta": "¿Vuestros padres NECESITARÁN dinero vuestro en los próximos 10 años (cuidados, residencia, enfermedad)?",
+          "tipo": "sandwich",
+          "respuestas": [
+            {
+              "texto": "No previsto",
+              "score": 0
+            },
+            {
+              "texto": "Probablemente sí",
+              "score": 80
+            }
+          ],
+          "pesos": {
+            "sandwich_syndrome": 100,
+            "legacy": 95
+          }
+        }
+      ]
+    },
+    "legado_hijos": {
+      "nombre": "Índice de Legado — ¿Replicarán Vuestro Estrés?",
+      "descripcion": "¿Vuestros hijos heredarán vuestro PATRÓN de dinero (estrés, ignorancia, deuda)?",
+      "preguntas": [
+        {
+          "id": "q351",
+          "pregunta": "¿Habéis ENSEÑADO a vuestros hijos cómo FUNCIONA el dinero (ahorro, interés, riesgo)?",
+          "tipo": "si_no_educacion",
+          "respuestas": [
+            {
+              "texto": "Sí, activamente",
+              "score": 0
+            },
+            {
+              "texto": "No, es tabú",
+              "score": 100
+            }
+          ],
+          "pesos": {
+            "legacy_habit": 100,
+            "education": 95
+          }
+        },
+        {
+          "id": "q352",
+          "pregunta": "¿Vuestros hijos os ven DISCUTIR por dinero REGULARMENTE?",
+          "tipo": "si_no",
+          "respuestas": [
+            {
+              "texto": "No",
+              "score": 0
+            },
+            {
+              "texto": "Sí, a menudo",
+              "score": 100
+            }
+          ],
+          "pesos": {
+            "intergenerational": 100
+          }
+        }
+      ]
+    },
+    "ingreso_ecosistema": {
+      "nombre": "Ecosistema Ingresos — ¿Estáis Concentrados?",
+      "descripcion": "¿Dependen del 90% de UNA sola fuente de ingresos? Diversificación de riesgo.",
+      "preguntas": [
+        {
+          "id": "q401",
+          "pregunta": "¿Cuál es vuestro Índice de Concentración de Ingresos? (100% = TODO de una fuente). Desglosed ingresos mes:",
+          "tipo": "diversificacion",
+          "respuestas": [
+            {
+              "texto": "Pareja A sueldo: €___. Pareja B sueldo: €___. Otros ingresos: €___",
+              "score": 0,
+              "requiere_numeros": [true, true, true],
+              "formula": "Max(A,B,Others) / Total"
+            }
+          ],
+          "pesos": {
+            "diversification": 100,
+            "resilience": 95
+          }
+        }
+      ]
+    },
+    "shield_score_resiliencia": {
+      "nombre": "Shield Score — Resistencia Familiar (0-100%)",
+      "descripcion": "¿Cuál es vuestro 'escudo' si pasa lo PEOR?",
+      "preguntas": [
+        {
+          "id": "q451",
+          "pregunta": "¿Tenéis SEGURO de vida (para proteger a pareja si uno muere)?",
+          "tipo": "protection",
+          "respuestas": [
+            {
+              "texto": "No",
+              "score": 100
+            },
+            {
+              "texto": "Sí, cobertura €___",
+              "score": 0,
+              "requiere_numero": true
+            }
+          ],
+          "pesos": {
+            "shield": 100
+          }
+        },
+        {
+          "id": "q452",
+          "pregunta": "¿Tenéis FONDO DE EMERGENCIA (3-6 meses gastos)?",
+          "tipo": "protection",
+          "respuestas": [
+            {
+              "texto": "No",
+              "score": 100
+            },
+            {
+              "texto": "Sí, €___",
+              "score": 0,
+              "requiere_numero": true
+            }
+          ],
+          "pesos": {
+            "shield": 100
+          }
+        }
+      ]
+    },
+    "regla_10_porciento": {
+      "nombre": "Efecto Tijera — La Regla del 10%",
+      "descripcion": "+10% ingresos + -10% gastos = +100% ahorro. ¿Es posible en vuestro caso?",
+      "preguntas": [
+        {
+          "id": "q501",
+          "pregunta": "¿Estarías DISPUESTO a INVERTIR €500-€2000 en una SESIÓN PRIVADA 1-1 con Javier para diseñar TU transformación financiera de pareja?",
+          "tipo": "high_ticket_trigger",
+          "respuestas": [
+            {
+              "texto": "No, ni lo planteo",
+              "score": 0,
+              "high_ticket": false
+            },
+            {
+              "texto": "Quizá, dependería del contenido",
+              "score": 50,
+              "high_ticket": true
+            },
+            {
+              "texto": "Sí, es prioritario",
+              "score": 100,
+              "high_ticket": true
+            }
+          ],
+          "pesos": {
+            "upsell": 100,
+            "willingness": 100
+          },
+          "notas": "CRÍTICA: PREGUNTA 500. Trigger high-ticket €500+ sesión Javier. PremiumUpsellOptimizer.generate_trigger() usa esto."
+        }
+      ]
+    }
+  }
+}
